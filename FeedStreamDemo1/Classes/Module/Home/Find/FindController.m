@@ -19,15 +19,15 @@
     [super viewDidLoad];
     
    
-    UILabel *aLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, self.view.frame.size.width-20*2, 40)];
-    aLabel.text = @"发现...";
-    aLabel.center = self.view.center;
-    aLabel.backgroundColor = [UIColor whiteColor];
-    aLabel.textAlignment =NSTextAlignmentCenter;
-    [self.view addSubview:aLabel];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, self.view.frame.size.width-20*2, 40)];
+    label.text = @"发现...";
+    label.center = self.view.center;
+    label.backgroundColor = [UIColor whiteColor];
+    label.textAlignment =NSTextAlignmentCenter;
+    [self.view addSubview:label];
            
        //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showDetailViewController:)];
-    aLabel.userInteractionEnabled = YES;
+    label.userInteractionEnabled = YES;
 //    self.tabBarItem.title = @"发现";
     // Do any additional setup after loading the view.
 }

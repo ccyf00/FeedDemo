@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ImageModel : NSObject
 
 @property (nonatomic,strong)NSString *title;
-@property (nonatomic,strong)NSString *imgURL;
-@property (nonatomic,assign)CGFloat imgWidth;
-@property (nonatomic,assign)CGFloat imgHeight;
+@property (nonatomic,strong)NSString *imageURL;
+@property (nonatomic,assign)CGFloat imageWidth;
+@property (nonatomic,assign)CGFloat imageHeight;
 @property (nonatomic,strong)NSString* dateStr;
 @property (nonatomic,strong)NSString* author;
 

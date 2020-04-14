@@ -11,15 +11,21 @@
 #import <SDWebImage/SDWebImage.h>
 
 @interface FeedCollectionCell ()
-@property (nonatomic, strong) UIImageView *avatarImageView;
-@property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UIView *subView;
-@property (nonatomic, strong) UILabel *author;
-@property (nonatomic, strong) UILabel *timeLabel;
-@property (nonatomic, strong) UIImageView *imageView;
+
 
 @end
 @implementation FeedCollectionCell
+
+//- (void)prepareForReuse {
+//    [super prepareForReuse];
+//    self.imageView = [[UIImageView alloc]init];
+//    self.model = [[ImageModel alloc]init];
+//    self.author = [[UILabel alloc]init];
+//    self.avatarImageView = [[UIImageView alloc]init];
+//    self.label = [[UILabel alloc]init];
+//    self.timeLabel = [[UILabel alloc]init];
+//    self.subView = [[UIView alloc]init];
+//}
 
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -28,10 +34,6 @@
     }
     return self;
 }
-
-//-(void)prepareForReuse{
-//    [super prepareForReuse];
-//}
 
 
 -(void)createSubVIew{
@@ -71,7 +73,6 @@
 }
 
 -(void)setModel:(ImageModel *)model{
-   
     _model = model;
     
     _label.backgroundColor = [UIColor whiteColor];
@@ -80,16 +81,18 @@
     
     _imageView.frame = CGRectMake(self.bounds.origin.x,self.bounds.origin.y,
                             self.bounds.size.width,self.bounds.size.height-labelSize.height-45);
-    NSString *name = [NSString stringWithFormat:@"%@.png",model.imgURL];
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:_model.imgURL] placeholderImage:[UIImage imageNamed:name]];
-    
-    
+//    NSString *name = [NSString stringWithFormat:@"%@.png",model.imageURL];
+//    [_imageView sd_setImageWithURL:[NSURL URLWithString:_model.imageURL] placeholderImage:[UIImage imageNamed:name] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//        self->_model.imageHeight = image.size.height;
+//        self->_model.imageWidth = image.size.width;
+//        NSLog(@"缓存完成");
+//    }];
     _label.frame = CGRectMake(0, self.frame.size.height-labelSize.height-40, self.frame.size.width, labelSize.height);
     _subView.frame = CGRectMake(0,self.frame.size.height-40, self.frame.size.width, 40);
     _avatarImageView.frame = CGRectMake(0,0,40,40);
     _avatarImageView.layer.cornerRadius = 40/2;
     _avatarImageView.layer.masksToBounds = YES;
-    [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:_model.imgURL] placeholderImage:[UIImage imageNamed:name]];
+    [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:model.imageURL] placeholderImage:nil];
     _timeLabel.text = model.dateStr;
     _timeLabel.frame = CGRectMake(self.frame.size.width/2, 0, self.frame.size.width/2, 40);
     

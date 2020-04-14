@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FeedCollectionCell : UICollectionViewCell
 
 @property(nonatomic,strong)ImageModel *model;
+@property (nonatomic, strong) UIImageView *avatarImageView;
+@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UIView *subView;
+@property (nonatomic, strong) UILabel *author;
+@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end
 

@@ -18,17 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"消息";
-//    UIButton *helloBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 50)];
-//    helloBtn.backgroundColor = [UIColor redColor];
-//    [helloBtn setTitle:@"hello world" forState:UIControlStateNormal];
-//    [helloBtn addTarget:self action:@selector(showToast) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:helloBtn];
-}
-- (void)showToast{
-    // 打开新ViewController
-//    BlogDetailViewController *blogDetail = [[BlogDetailViewController alloc] init];
-//    blogDetail.hidesBottomBarWhenPushed=YES;
-//    [self.navigationController pushViewController:blogDetail animated:YES];
+
 }
 
 - (void)didReceiveMemoryWarning {
