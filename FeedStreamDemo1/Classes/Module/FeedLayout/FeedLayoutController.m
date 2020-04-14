@@ -50,6 +50,9 @@
 //    _loadCount++;
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
     self.dicOfHeight = self.sectionInset.top;
+    if (isnan(self.dicOfHeight)) {
+        self.dicOfHeight = 0;
+    }
     self.notFull = -1;
     [self.array removeAllObjects];
     for (NSInteger i=0; i<count;i++){
@@ -62,6 +65,10 @@
 -(CGSize) collectionViewContentSize{
    
     CGFloat height =_dicOfHeight + _sectionInset.bottom;
+    NSLog(@"collectionViewContentHeight %f", height);
+    if( isnan(height) ) {
+        height = 0;
+    }
     return CGSizeMake(self.collectionView.bounds.size.width, height);
 }
 
@@ -106,12 +113,16 @@
             self.dicOfHeight += itemHight + self.rowSpacing;
         }
     }
+    if (isnan(self.dicOfHeight)) {
+        self.dicOfHeight = 0;
+    }
    
     
     //计算item的frame
     
     frame.size = CGSizeMake(itemWidth, itemHight);
-    
+    NSLog(@"layoutAttributesForItemAtIndexPath");
+
     attr.frame = frame;
     return attr;
 }
@@ -122,6 +133,10 @@
     }
 }
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds{
+
+//    CGFloat oldWidth = self.collectionView.bounds.size.width;
+//    return oldWidth != newBounds.size.width;
+    
     return YES;
 }
 

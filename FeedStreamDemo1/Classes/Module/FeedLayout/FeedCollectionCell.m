@@ -46,11 +46,16 @@
     _label.textColor = [UIColor blackColor];
     _label.textAlignment = NSTextAlignmentLeft;
     _label.numberOfLines = 0;
+    _label.backgroundColor = [UIColor whiteColor];
+
     [self addSubview:_label];
     
     _subView = [[UIView alloc]init];
 
     _avatarImageView  = [[UIImageView alloc]init];
+    _avatarImageView.frame = CGRectMake(0,0,40,40);
+    _avatarImageView.layer.cornerRadius = 40/2;
+    _avatarImageView.layer.masksToBounds = YES;
    
     [_subView addSubview:_avatarImageView];
     
@@ -73,33 +78,27 @@
 }
 
 -(void)setModel:(ImageModel *)model{
+    if (_model == model) {
+        return;
+    }
     _model = model;
     
-    _label.backgroundColor = [UIColor whiteColor];
     _label.text = model.title;
-    CGSize labelSize = [_label.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:_label.font, NSFontAttributeName,nil]];
-    
-    _imageView.frame = CGRectMake(self.bounds.origin.x,self.bounds.origin.y,
-                            self.bounds.size.width,self.bounds.size.height-labelSize.height-45);
-//    NSString *name = [NSString stringWithFormat:@"%@.png",model.imageURL];
-//    [_imageView sd_setImageWithURL:[NSURL URLWithString:_model.imageURL] placeholderImage:[UIImage imageNamed:name] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-//        self->_model.imageHeight = image.size.height;
-//        self->_model.imageWidth = image.size.width;
-//        NSLog(@"缓存完成");
-//    }];
-    _label.frame = CGRectMake(0, self.frame.size.height-labelSize.height-40, self.frame.size.width, labelSize.height);
-    _subView.frame = CGRectMake(0,self.frame.size.height-40, self.frame.size.width, 40);
-    _avatarImageView.frame = CGRectMake(0,0,40,40);
-    _avatarImageView.layer.cornerRadius = 40/2;
-    _avatarImageView.layer.masksToBounds = YES;
     [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:model.imageURL] placeholderImage:nil];
     _timeLabel.text = model.dateStr;
-    _timeLabel.frame = CGRectMake(self.frame.size.width/2, 0, self.frame.size.width/2, 40);
-    
     _author.text = model.author;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CGSize labelSize = [_label.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:_label.font, NSFontAttributeName,nil]];
+    _imageView.frame = CGRectMake(self.bounds.origin.x,self.bounds.origin.y,
+                            self.bounds.size.width,self.bounds.size.height-labelSize.height-45);
+    _timeLabel.frame = CGRectMake(self.frame.size.width/2, 0, self.frame.size.width/2, 40);
+    _label.frame = CGRectMake(0, self.frame.size.height-labelSize.height-40, self.frame.size.width, labelSize.height);
+    _subView.frame = CGRectMake(0,self.frame.size.height-40, self.frame.size.width, 40);
     _author.frame = CGRectMake(40, 0, self.frame.size.width/2-40, 40);
-   
-    
+
 }
 
 @end

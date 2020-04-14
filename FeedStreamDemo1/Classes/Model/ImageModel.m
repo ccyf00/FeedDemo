@@ -10,4 +10,14 @@
 
 @implementation ImageModel
 
+- (BOOL)isEqual:(ImageModel *)object {
+    if (object && [object isKindOfClass:[ImageModel class]]) {
+        return [_title isEqualToString:object.title] && [_author isEqualToString:object.author];
+    }
+    return NO;
+}
+
+- (NSUInteger)hash {
+    return [_title hash] ^ [_author hash];
+}
 @end

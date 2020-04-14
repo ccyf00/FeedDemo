@@ -70,77 +70,46 @@
 - (void) getImageDetailWithURL:(NSString *)urlStr{
     __block NSMutableArray *array = [[NSMutableArray alloc]init];
     NSURL *url = [NSURL URLWithString:urlStr];
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-        array = [dict[@"data"] mutableCopy];
-        dispatch_semaphore_signal(semaphore);
-    }]resume];
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    for(NSDictionary *dic in array){
-        ImageModel *imgModel = [[ImageModel alloc]init];
-        imgModel.title = dic[@"desc"];
-        imgModel.imageURL = dic[@"images"][0];
-        imgModel.dateStr = [dic[@"publishedAt"] componentsSeparatedByString:@" "][0];
-        imgModel.author = dic[@"author"];
-        imgModel.imageHeight = 1000;
-        imgModel.imageWidth = 500;
-        [self->modelArray addObject:imgModel];
-    }
-    [self.collectionView reloadData];
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            array = [dict[@"data"] mutableCopy];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                for(NSDictionary *dic in array){
+                    ImageModel *imgModel = [[ImageModel alloc]init];
+                    imgModel.title = dic[@"desc"];
+                    imgModel.imageURL = dic[@"images"][0];
+                    imgModel.dateStr = [dic[@"publishedAt"] componentsSeparatedByString:@" "][0];
+                    imgModel.author = dic[@"author"];
+                    [[[SDWebImageManager sharedManager] imageCache] queryImageForKey:imgModel.imageURL options:SDWebImageQueryMemoryDataSync | SDWebImageQueryDiskDataSync | SDWebImageFromCacheOnly context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+                        if (image) {
+                            imgModel.imageHeight = image.size.height;
+                            imgModel.imageWidth = image.size.width;
+                        } else {
+                            imgModel.imageHeight = 1000;
+                            imgModel.imageWidth = 500;
+                        }
+                    }];
+
+                    [self->modelArray addObject:imgModel];
+                }
+                [self.collectionView reloadData];
+                [self.collectionView.mj_header endRefreshing];
+                [self.collectionView.mj_header endRefreshing];
+
+            });
+        }
+        
+        }]resume];
+
 }
-//
-//- (void) setModelDetail:(NSMutableArray*) array{
-//    dispatch_group_t group = dispatch_group_create();
-//
-//    for(NSDictionary *dic in array){
-//        ImageModel *imgModel = [[ImageModel alloc]init];
-//        imgModel.title = dic[@"desc"];
-//        imgModel.imageURL = dic[@"images"][0];
-//        imgModel.dateStr = [dic[@"publishedAt"] componentsSeparatedByString:@" "][0];
-//        imgModel.author = dic[@"author"];
-//        //        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-//        NSURLSession *session = [NSURLSession sharedSession];
-//        NSURL *url = [NSURL URLWithString:imgModel.imageURL];
-//        __weak __typeof(self) weakSelf = self;
-//
-//        dispatch_group_enter(group);
-//
-//        [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//            __strong __typeof(weakSelf) strongSelf = weakSelf;
-//
-//            NSURL *finalURL = response.URL;
-//            //同步下载，后续使用该图片
-//            CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)finalURL, NULL);
-//
-//            NSDictionary* imageHeader = (__bridge NSDictionary*) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
-//            NSLog(@"%@",imageHeader);
-//            imgModel.imageHeight = [imageHeader[@"PixelHeight"] floatValue];
-//            imgModel.imageWidth = [imageHeader[@"PixelWidth"] floatValue];
-//            [strongSelf->modelArray addObject:imgModel];
-//
-//            dispatch_group_leave(group);
-//        }]resume];
-//    }
-//
-//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-//        [self.collectionView reloadData];
-//        [self.collectionView.mj_footer endRefreshing];
-//        [self.collectionView.mj_header endRefreshing];
-//    });
-//}
-
-
 
 - (void)loadMore{
     NSString *urlStr = IMAGE_API(page);
     page++;
-    
-//    NSMutableArray *array = [self getImagesWithURL:urlStr];
-//    [self setModelDetail:array];
     [self getImageDetailWithURL:urlStr];
-
     [self.collectionView.mj_footer endRefreshing];
 }
 
@@ -152,7 +121,6 @@
 
     [self getImageDetailWithURL:urlStr];
     
-    [self.collectionView.mj_header endRefreshing];
 }
 
 
@@ -188,28 +156,12 @@
 }
 
 - (void) computeIndexCellHeight{
-//    NSLog(@"开始计算高度");
-//    dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    dispatch_async(globalQueue, ^{
-//        [self.feedLayout computeIndexCellHeightWithWidthBlock:^ImageModel*(NSIndexPath * indexPath) {
-//            ImageModel *model = self->modelArray[indexPath.row];
-//            return model;
-//        }];
-//        dispatch_queue_t mainQueue = dispatch_get_main_queue();
-//        dispatch_async(mainQueue, ^{
-//            NSLog(@"高度计算完成");
-//        });
-//    });
     [self.feedLayout computeIndexCellHeightWithWidthBlock:^ImageModel*(NSIndexPath * indexPath) {
-        ImageModel *model = self->modelArray[indexPath.row];
-        
-//        [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:model.imageURL] options:SDWebImageHighPriority progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
-//            model.imageHeight = image.size.height;
-//            model.imageWidth = image.size.width;
-//
-//        }];
-       
-        return model;
+        if ([self->modelArray count] > indexPath.row) {
+            ImageModel *model = self->modelArray[indexPath.row];
+            return model;
+        }
+        return nil;
     }];
 }
 
@@ -248,17 +200,33 @@
     // 复用cell，dequeueReusableCellWithReuseIdentifier 获得一个重用的cell，若无cell，系统创建一个cell
     FeedCollectionCell *cell = (FeedCollectionCell *)[self.collectionView dequeueReusableCellWithReuseIdentifier:@"feedCollectionCell" forIndexPath:indexPath];
     
-    cell.model = modelArray[indexPath.row];
+    ImageModel *model = modelArray[indexPath.row];
+    cell.model = model;
 
     NSLog(@"cell");
-//    NSString *name = [NSString stringWithFormat:@"%@.png",cell.model.imageURL];
-//    cell.imageView
-    [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:cell.model.imageURL] options:SDWebImageHighPriority progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
-        cell.model.imageHeight = image.size.height;
-        cell.model.imageWidth = image.size.width;
-        [cell.imageView setImage:image];
-        [self.collectionView.collectionViewLayout invalidateLayout];
+    __weak  __typeof(self) weakSelf = self;;
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:cell.model.imageURL] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (cacheType != SDImageCacheTypeNone) {
 
+            model.imageHeight = image.size.height;
+            model.imageWidth = image.size.width;
+        
+        }
+        
+        
+        if (indexPath.row != [self.collectionView indexPathForCell:cell].row) {
+            return;
+        }
+        
+        if (cacheType == SDImageCacheTypeNone) {
+            NSArray<NSIndexPath *> *array = [strongSelf.collectionView indexPathsForVisibleItems];
+            for (NSIndexPath *pindexPath in array) {
+                if (indexPath.row == pindexPath.row) {
+                    [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+                }
+            }
+        }
     }];
 
     return cell;
@@ -268,15 +236,6 @@
     NSLog(@"选中了第%ld个item",indexPath.row);
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
