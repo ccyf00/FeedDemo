@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6DE516E17FF06E02A94F0925 /* Pods_FeedStreamDemo1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89AFB2C4E113843EA0CFDB7 /* Pods_FeedStreamDemo1.framework */; };
-		A06DAB50243EBE0700753B7F /* NetWorkUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A06DAB4F243EBE0700753B7F /* NetWorkUtil.m */; };
 		A0BC3A3F243C148C00D820F5 /* FeedLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0BC3A3E243C148C00D820F5 /* FeedLayoutController.m */; };
 		A0BC3A42243C23F000D820F5 /* FeedCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A0BC3A41243C23F000D820F5 /* FeedCollectionCell.m */; };
 		A0BC3A46243C244700D820F5 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A0BC3A45243C244700D820F5 /* ImageModel.m */; };
@@ -76,8 +75,6 @@
 
 /* Begin PBXFileReference section */
 		9FDE291C2EAF4D2D76943BAB /* Pods-FeedStreamDemo1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedStreamDemo1.debug.xcconfig"; path = "Target Support Files/Pods-FeedStreamDemo1/Pods-FeedStreamDemo1.debug.xcconfig"; sourceTree = "<group>"; };
-		A06DAB4E243EBE0700753B7F /* NetWorkUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetWorkUtil.h; sourceTree = "<group>"; };
-		A06DAB4F243EBE0700753B7F /* NetWorkUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetWorkUtil.m; sourceTree = "<group>"; };
 		A0BC3A3D243C148C00D820F5 /* FeedLayoutController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedLayoutController.h; sourceTree = "<group>"; };
 		A0BC3A3E243C148C00D820F5 /* FeedLayoutController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedLayoutController.m; sourceTree = "<group>"; };
 		A0BC3A40243C23F000D820F5 /* FeedCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedCollectionCell.h; sourceTree = "<group>"; };
@@ -181,15 +178,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		A0BC3A5D243EBD7700D820F5 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				A06DAB4E243EBE0700753B7F /* NetWorkUtil.h */,
-				A06DAB4F243EBE0700753B7F /* NetWorkUtil.m */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		A0F22E4C2439F93D008F6154 = {
 			isa = PBXGroup;
 			children = (
@@ -279,7 +267,6 @@
 		A0F22EA62439FAD5008F6154 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				A0BC3A5D243EBD7700D820F5 /* Utils */,
 				A0BC3A43243C240C00D820F5 /* Model */,
 				A0F22EB2243A048E008F6154 /* Module */,
 				A0F22EAF243A03F1008F6154 /* MainTabBarController.h */,
@@ -568,7 +555,6 @@
 				A0F22EBE243A0618008F6154 /* HomeViewController.m in Sources */,
 				A0F22ECE243A0D35008F6154 /* FindController.m in Sources */,
 				A0F22EC8243A0CC0008F6154 /* CityController.m in Sources */,
-				A06DAB50243EBE0700753B7F /* NetWorkUtil.m in Sources */,
 				A0F22EAA2439FAF0008F6154 /* RootViewController.m in Sources */,
 				A0BC3A42243C23F000D820F5 /* FeedCollectionCell.m in Sources */,
 			);
@@ -667,7 +653,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -719,7 +705,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -733,12 +719,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M64DJV8WG7;
 				INFOPLIST_FILE = FeedStreamDemo1/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bytedance.FeedStreamDemo1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytedance.FeedStreamDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -750,12 +738,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M64DJV8WG7;
 				INFOPLIST_FILE = FeedStreamDemo1/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bytedance.FeedStreamDemo1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytedance.FeedStreamDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
